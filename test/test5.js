@@ -3,6 +3,7 @@ const {
   getFileDependencies,
   getFlatFileDependencies,
   getFlatFilesDependencies,
+  getDependentFiles,
 } = require('../src')
 const path = require('path')
 
@@ -27,5 +28,12 @@ test('all flat paths', (t) => {
   t.plan(1)
   const deps = getFlatFilesDependencies([filename], directory)
   // console.log(deps)
-  t.snapshot(deps, 'flat circular paths')
+  t.snapshot(deps, 'all flat paths')
+})
+
+test('dependent files', (t) => {
+  t.plan(1)
+  const deps = getDependentFiles([filename], directory)
+  // console.log(deps)
+  t.snapshot(deps, 'dependent files')
 })

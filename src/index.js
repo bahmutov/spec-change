@@ -73,8 +73,42 @@ function getFlatFilesDependencies(filenames, directory) {
   return result
 }
 
+/**
+ * Computes the dependencies for the given list of files.
+ * Then reverses the output to produce an object. Each key
+ * is a relative filename. The value is a list of _other_ files that depend on it
+ */
+function getDependentFiles(filenames, directory) {
+  la(Array.isArray(filenames), 'expected a list of filenames', filenames)
+  la(typeof directory === 'string', 'expected a directory', directory)
+  const flatDeps = getFlatFilesDependencies(filenames, directory)
+
+  const allImportedFilesSet = new Set()
+  Object.values(flatDeps).forEach((deps) => {
+    deps.forEach((file) => {
+      if (!allImportedFilesSet.has(file)) {
+        allImportedFilesSet.add(file)
+      }
+    })
+  })
+
+  const result = {}
+  allImportedFilesSet.forEach((file) => {
+    result[file] = []
+    // find all top level files that depend on this file
+    Object.keys(flatDeps).forEach((f) => {
+      if (flatDeps[f].includes(file)) {
+        result[file].push(f)
+      }
+    })
+  })
+
+  return result
+}
+
 module.exports = {
   getFileDependencies,
   getFlatFileDependencies,
   getFlatFilesDependencies,
+  getDependentFiles,
 }
