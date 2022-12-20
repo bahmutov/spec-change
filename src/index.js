@@ -1,5 +1,6 @@
 const dependencyTree = require('dependency-tree')
 const path = require('path')
+const { lazyAss: la } = require('lazy-ass')
 
 function convertKeysToRelative(tree, directory) {
   const result = {}
@@ -54,4 +55,26 @@ function getFlatFileDependencies(filename, directory) {
   return [...set].sort()
 }
 
-module.exports = { getFileDependencies, getFlatFileDependencies }
+/**
+ * Computes the list of files each spec in the filenames depends on.
+ * All returned paths are relative to the given directory.
+ */
+function getFlatFilesDependencies(filenames, directory) {
+  la(Array.isArray(filenames), 'expected a list of filenames', filenames)
+  la(typeof directory === 'string', 'expected a directory', directory)
+
+  const result = {}
+  filenames.forEach((filename) => {
+    const name = path.relative(directory, filename)
+    const dependsOn = getFlatFileDependencies(filename, directory)
+    result[name] = dependsOn
+  })
+
+  return result
+}
+
+module.exports = {
+  getFileDependencies,
+  getFlatFileDependencies,
+  getFlatFilesDependencies,
+}

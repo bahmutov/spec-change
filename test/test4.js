@@ -15,6 +15,6 @@ test('nested subfolders', (t) => {
 test('nested flat paths', (t) => {
   t.plan(1)
   const deps = getFlatFileDependencies(filename, directory)
-  console.log(deps)
+  // console.log(deps)
   t.snapshot(deps, 'flat paths')
 })
