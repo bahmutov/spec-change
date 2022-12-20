@@ -6,7 +6,7 @@ function convertKeysToRelative(tree, directory) {
   const paths = Object.keys(tree)
   paths.forEach((absolutePath) => {
     const relativePath = path.relative(directory, absolutePath)
-    result[relativePath] = tree[absolutePath]
+    result[relativePath] = convertKeysToRelative(tree[absolutePath], directory)
   })
   return result
 }
