@@ -102,6 +102,14 @@ function getDependentFiles(filenames, directory) {
       }
     })
   })
+  // also include the top level files - each file at least depends on itself
+  filenames.forEach((filename) => {
+    const relative = path.relative(directory, filename)
+    if (!result[relative]) {
+      result[relative] = [relative]
+    }
+    // TODO: handle dependencies between the given files
+  })
 
   return result
 }
