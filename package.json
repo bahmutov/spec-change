@@ -1,10 +1,11 @@
 {
   "name": "spec-change",
-  "version": "1.0.0",
+  "version": "0.0.0-development",
   "description": "Computes specs to re-run when files change",
   "main": "src/index.js",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "semantic-release": "semantic-release"
   },
   "keywords": [],
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
@@ -12,9 +13,14 @@
   "devDependencies": {
     "ava": "^5.1.0",
     "dependency-tree": "^8.1.2",
-    "prettier": "^2.8.1"
+    "prettier": "^2.8.1",
+    "semantic-release": "^19.0.5"
   },
   "dependencies": {
     "lazy-ass": "^2.0.3"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/bahmutov/spec-change.git"
   }
 }
