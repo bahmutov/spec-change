@@ -2,12 +2,23 @@ const dependencyTree = require('dependency-tree')
 const path = require('path')
 const { lazyAss: la } = require('lazy-ass')
 
+function isOutside(relativePath) {
+  return relativePath.startsWith('..')
+}
+
 function convertKeysToRelative(tree, directory) {
   const result = {}
   const paths = Object.keys(tree)
   paths.forEach((absolutePath) => {
     const relativePath = path.relative(directory, absolutePath)
-    result[relativePath] = convertKeysToRelative(tree[absolutePath], directory)
+    // do not compute dependencies with the modules
+    // outside the given folder
+    if (!isOutside(relativePath)) {
+      result[relativePath] = convertKeysToRelative(
+        tree[absolutePath],
+        directory,
+      )
+    }
   })
   return result
 }
