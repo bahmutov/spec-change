@@ -4,6 +4,7 @@ const arg = require('arg')
 const debug = require('debug')('spec-change')
 const globby = require('globby')
 const path = require('path')
+const fs = require('fs')
 const { getDependentFiles } = require('../src')
 
 const args = arg({
@@ -16,6 +17,10 @@ debug('arguments %o', args)
 
 if (!args['--folder']) {
   console.error('Missing --folder argument')
+  process.exit(1)
+}
+if (!fs.existsSync(args['--folder'])) {
+  console.error('Cannot find folder %s', args['--folder'])
   process.exit(1)
 }
 
