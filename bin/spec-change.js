@@ -14,10 +14,15 @@ const args = arg({
 
 debug('arguments %o', args)
 
+if (!args['--folder']) {
+  console.error('Missing --folder argument')
+  process.exit(1)
+}
+
 const folder = path.resolve(args['--folder'])
 debug('absolute folder: %s', folder)
 const files = globby.sync(folder + '/**/*.js')
-console.log('found %d files %o', files.length, files)
+debug('found %d files %o', files.length, files)
 
 const deps = getDependentFiles(files, folder)
 const depsStringified = JSON.stringify(deps, null, 2)
