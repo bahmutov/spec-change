@@ -21,7 +21,7 @@ if (!args['--folder']) {
 
 const folder = path.resolve(args['--folder'])
 debug('absolute folder: %s', folder)
-const files = globby.sync(folder + '/**/*.js')
+const files = globby.sync(folder + '/**/*.{js,ts}')
 debug('found %d files %o', files.length, files)
 
 const deps = getDependentFiles(files, folder)
