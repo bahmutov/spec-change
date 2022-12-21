@@ -2,6 +2,25 @@
 
 > Computes specs to re-run when files change
 
+## Use
+
+### CLI
+
+```
+$ npx spec-change --folder "path to folder with specs"
+```
+
+Prints a JSON object with the list of JavaScript files. For each file prints the list of dependent files. For example, if `spec.js` imports or requires `utils.js` file, then it will print something like:
+
+```json
+{
+  "spec.js": ["spec.js"],
+  "utils.js": ["spec.js"]
+}
+```
+
+### NPM module
+
 Based on the `import` and `require` directives.
 
 ```js
@@ -27,6 +46,10 @@ The output will be an object with all files (the initial plus all files they imp
   ...
 }
 ```
+
+## Debugging
+
+Run this code with environment variable `DEBUG=spec-change`
 
 ## Small print
 
