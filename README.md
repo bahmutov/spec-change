@@ -28,6 +28,10 @@ The output will be an object with all files (the initial plus all files they imp
 }
 ```
 
+## Debugging
+
+Run this code with environment variable `DEBUG=spec-change`
+
 ## Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2022
