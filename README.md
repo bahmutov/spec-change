@@ -6,6 +6,7 @@ Based on the `import` and `require` directives.
 
 ```js
 const { getDependentFiles } = require('spec-change')
+// the input paths should be absolute
 const deps = getDependentFiles([
   'path/to/spec1.js',
   'path/to/spec2.js',
@@ -20,8 +21,9 @@ The output will be an object with all files (the initial plus all files they imp
   // input files at least dependent on selves
   'path/to/spec1.js': ['path/to/spec1.js'],
   'path/to/spec2.js': ['path/to/spec2.js'],
-  // the spec2 imports something from utils
-  'path/to/utils.js': ['path/to/spec2.js'],
+  ...
+  // the specs spec2 and spec3 imports something from utils
+  'path/to/utils.js': ['path/to/spec2.js', 'path/to/spec3.js'],
   ...
 }
 ```

@@ -77,6 +77,9 @@ function getFlatFilesDependencies(filenames, directory) {
  * Computes the dependencies for the given list of files.
  * Then reverses the output to produce an object. Each key
  * is a relative filename. The value is a list of _other_ files that depend on it
+ * @param {string[]} filenames The absolute filenames to the source files
+ * @param {string} directory The absolute path to the common directory
+ * @see https://github.com/bahmutov/spec-change
  */
 function getDependentFiles(filenames, directory) {
   la(Array.isArray(filenames), 'expected a list of filenames', filenames)
