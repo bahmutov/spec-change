@@ -2,15 +2,16 @@
 
 const arg = require('arg')
 const debug = require('debug')('spec-change')
-const globby = require('globby')
 const path = require('path')
 const fs = require('fs')
-const { getDependentFiles } = require('../src')
+const { getDependsInFolder } = require('../src')
 
 const args = arg({
   '--folder': String,
+  '--mask': String,
   // aliases
   '-f': '--folder',
+  '-m': '--mask',
 })
 
 debug('arguments %o', args)
@@ -25,10 +26,7 @@ if (!fs.existsSync(args['--folder'])) {
 }
 
 const folder = path.resolve(args['--folder'])
-debug('absolute folder: %s', folder)
-const files = globby.sync(folder + '/**/*.{js,ts}')
-debug('found %d files %o', files.length, files)
-
-const deps = getDependentFiles(files, folder)
+const fileMask = args['--mask'] || '**/*.{js,ts}'
+const deps = getDependsInFolder(folder, fileMask)
 const depsStringified = JSON.stringify(deps, null, 2)
 console.log(depsStringified + '\n')

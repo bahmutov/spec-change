@@ -6,7 +6,8 @@
   "scripts": {
     "test": "ava",
     "semantic-release": "semantic-release",
-    "demo1": "DEBUG=spec-change node ./bin/spec-change --folder fixtures/6"
+    "demo1": "DEBUG=spec-change node ./bin/spec-change --folder fixtures/6",
+    "demo-mask": "DEBUG=spec-change node ./bin/spec-change --folder fixtures/6 --mask 'spec-b.js'"
   },
   "bin": {
     "spec-change": "bin/spec-change.js"

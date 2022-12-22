@@ -19,6 +19,13 @@ Prints a JSON object with the list of JavaScript files. For each file prints the
 }
 ```
 
+You can specify the file mask
+
+```
+# start the search from TS files only
+$ npx spec-change --folder "path to folder" --mask '**/*.ts'
+```
+
 ### NPM module
 
 Based on the `import` and `require` directives.
