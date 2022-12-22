@@ -69,6 +69,18 @@ const deps = getDependsInFolder(
 )
 ```
 
+#### affectedFiles
+
+Takes the dependencies computed using `getDependsInFolder` or `getDependentFiles` and a list of source files and produces a list of potentially affected files.
+
+```js
+const { getDependsInFolder, affectedFiles } = require('spec-change')
+const deps = getDependsInFolder(directory)
+const changedFiles = ['utils/sub/misc.js']
+const affected = affectedFiles(deps, changedFiles)
+// a list of files that depend on the misc file
+```
+
 ## Debugging
 
 Run this code with environment variable `DEBUG=spec-change`

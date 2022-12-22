@@ -130,6 +130,13 @@ function getDependentFiles(filenames, directory) {
   return result
 }
 
+/**
+ * Give the folder name and optional file mask, finds dependencies between all files.
+ * The returned object can have _other_ files, if they are imported or required
+ * from the source files.
+ * @param {string} folder Absolute path to the folder
+ * @param {string} fileMask Optional file mask to use to find the source files
+ */
 function getDependsInFolder(folder, fileMask = '**/*.{js,ts}') {
   la(path.isAbsolute(folder), 'expected an absolute folder path', folder)
   la(typeof fileMask === 'string', 'expected a file mask', fileMask)
@@ -146,10 +153,35 @@ function getDependsInFolder(folder, fileMask = '**/*.{js,ts}') {
   return deps
 }
 
+/**
+ * Given the computed dependencies object and a list of files,
+ * returns a list of files that are affected by the changes.
+ * Useful when the files are computed using source control changes
+ * and now we want to verify _all_ potentially affected source files.
+ * @see `getDependsInFolder`
+ * @param {Object} deps Source file dependencies computed using `getDependentFiles` or `getDependsInFolder`
+ * @param {string[]} filenames List of filenames (relative) that have changed
+ * @returns {string[]}
+ */
+function affectedFiles(deps, filenames) {
+  const affected = new Set()
+  filenames.forEach((filename) => {
+    if (deps[filename]) {
+      const filesAffectedByThisChangedFile = deps[filename]
+      filesAffectedByThisChangedFile.forEach((name) => {
+        affected.add(name)
+      })
+    }
+  })
+
+  return [...affected].sort()
+}
+
 module.exports = {
   getFileDependencies,
   getFlatFileDependencies,
   getFlatFilesDependencies,
   getDependentFiles,
   getDependsInFolder,
+  affectedFiles,
 }
