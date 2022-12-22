@@ -11,6 +11,8 @@ jobs:
         run: npm t
       - name: Demo 1
         run: npm run demo1
+      - name: Demo 2 with file mask
+        run: npm run demo-mask
 
   release:
     needs: [test]

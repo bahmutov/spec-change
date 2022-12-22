@@ -19,9 +19,18 @@ Prints a JSON object with the list of JavaScript files. For each file prints the
 }
 ```
 
+You can specify the file mask
+
+```
+# start the search from TS files only
+$ npx spec-change --folder "path to folder" --mask '**/*.ts'
+```
+
 ### NPM module
 
-Based on the `import` and `require` directives.
+All files are found using the `import` and `require` directives.
+
+#### getDependentFiles
 
 ```js
 const { getDependentFiles } = require('spec-change')
@@ -45,6 +54,19 @@ The output will be an object with all files (the initial plus all files they imp
   'path/to/utils.js': ['path/to/spec2.js', 'path/to/spec3.js'],
   ...
 }
+```
+
+#### getDependsInFolder
+
+Finds the source files in the given folder and returns the dependencies object (just like above)
+
+```js
+const { getDependsInFolder } = require('spec-change')
+// see the "bin/spec-change.js" for example
+const deps = getDependsInFolder(
+  '/absolute/path/to/folder',
+  (fileMask = '**/*.{js,ts}'),
+)
 ```
 
 ## Debugging

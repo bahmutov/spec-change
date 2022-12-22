@@ -1,6 +1,8 @@
 const dependencyTree = require('dependency-tree')
 const path = require('path')
 const { lazyAss: la } = require('lazy-ass')
+const debug = require('debug')('spec-change')
+const globby = require('globby')
 
 function isOutside(relativePath) {
   return relativePath.startsWith('..')
@@ -128,9 +130,26 @@ function getDependentFiles(filenames, directory) {
   return result
 }
 
+function getDependsInFolder(folder, fileMask = '**/*.{js,ts}') {
+  la(path.isAbsolute(folder), 'expected an absolute folder path', folder)
+  la(typeof fileMask === 'string', 'expected a file mask', fileMask)
+
+  debug('absolute folder: %s', folder)
+  debug('file mask: %s', fileMask)
+  const files = globby.sync(fileMask, {
+    cwd: folder,
+    absolute: true,
+  })
+  debug('found %d files %o', files.length, files)
+
+  const deps = getDependentFiles(files, folder)
+  return deps
+}
+
 module.exports = {
   getFileDependencies,
   getFlatFileDependencies,
   getFlatFilesDependencies,
   getDependentFiles,
+  getDependsInFolder,
 }
