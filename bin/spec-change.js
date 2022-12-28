@@ -9,6 +9,7 @@ const { getDependsInFolder } = require('../src')
 const args = arg({
   '--folder': String,
   '--mask': String,
+  '--save-deps': String, // output filename
   // aliases
   '-f': '--folder',
   '-m': '--mask',
@@ -27,6 +28,7 @@ if (!fs.existsSync(args['--folder'])) {
 
 const folder = path.resolve(args['--folder'])
 const fileMask = args['--mask'] || '**/*.{js,ts}'
-const deps = getDependsInFolder(folder, fileMask)
+const saveDepsFilename = args['--save-deps']
+const deps = getDependsInFolder(folder, fileMask, saveDepsFilename)
 const depsStringified = JSON.stringify(deps, null, 2)
 console.log(depsStringified + '\n')

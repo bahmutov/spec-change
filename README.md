@@ -26,6 +26,25 @@ You can specify the file mask
 $ npx spec-change --folder "path to folder" --mask '**/*.ts'
 ```
 
+You can save detected dependencies into a JSON file
+
+```
+$ npx spec-change --folder "path to folder" --mask '**/*.ts' --save-deps my-deps.json
+```
+
+The saved file will be something like:
+
+```json
+{
+  "folder": "relative path to folder",
+  "fileMask": "**/*.ts",
+  "deps": {
+    "utils/sub/misc.js": ["spec-b.ts"],
+    "spec-b.ts": ["spec-b.ts"]
+  }
+}
+```
+
 ### NPM module
 
 All files are found using the `import` and `require` directives.
