@@ -85,6 +85,10 @@ const affected = affectedFiles(deps, changedFiles)
 
 Run this code with environment variable `DEBUG=spec-change`
 
+## Examples
+
+Used to [run affected Cypress specs first on CI](https://glebbahmutov.com/blog/trace-changed-specs/)
+
 ## Small print
 
 Author: Gleb Bahmutov &lt;gleb.bahmutov@gmail.com&gt; &copy; 2022
