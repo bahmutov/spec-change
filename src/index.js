@@ -3,6 +3,7 @@ const path = require('path')
 const { lazyAss: la } = require('lazy-ass')
 const debug = require('debug')('spec-change')
 const globby = require('globby')
+const fs = require('fs')
 
 function isOutside(relativePath) {
   return relativePath.startsWith('..')
@@ -136,8 +137,13 @@ function getDependentFiles(filenames, directory) {
  * from the source files.
  * @param {string} folder Absolute path to the folder
  * @param {string} fileMask Optional file mask to use to find the source files
+ * @param {string} saveDepsFilename Optional filename to save JSON of found dependencies
  */
-function getDependsInFolder(folder, fileMask = '**/*.{js,ts}') {
+function getDependsInFolder(
+  folder,
+  fileMask = '**/*.{js,ts}',
+  saveDepsFilename,
+) {
   la(path.isAbsolute(folder), 'expected an absolute folder path', folder)
   la(typeof fileMask === 'string', 'expected a file mask', fileMask)
 
@@ -150,6 +156,18 @@ function getDependsInFolder(folder, fileMask = '**/*.{js,ts}') {
   debug('found %d files %o', files.length, files)
 
   const deps = getDependentFiles(files, folder)
+  if (saveDepsFilename) {
+    debug('saving json file with dependencies %s', saveDepsFilename)
+    // use relative folder
+    const relativeFolder = path.relative(process.cwd(), folder)
+    const fullInfo = {
+      folder: relativeFolder,
+      fileMask,
+      deps,
+    }
+    const s = JSON.stringify(fullInfo, null, 2) + '\n\n'
+    fs.writeFileSync(saveDepsFilename, s, 'utf8')
+  }
   return deps
 }
 
