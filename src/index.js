@@ -145,6 +145,7 @@ function getDependsInFolder(options) {
 
   debug('absolute folder: %s', folder)
   debug('file mask: %s', fileMask)
+  const started = +new Date()
   const files = globby.sync(fileMask, {
     cwd: folder,
     absolute: true,
@@ -152,6 +153,7 @@ function getDependsInFolder(options) {
   debug('found %d files %o', files.length, files)
 
   const deps = getDependentFiles(files, folder)
+
   if (saveDepsFilename) {
     debug('saving json file with dependencies %s', saveDepsFilename)
     // use relative folder
@@ -164,6 +166,11 @@ function getDependsInFolder(options) {
     const s = JSON.stringify(fullInfo, null, 2) + '\n\n'
     fs.writeFileSync(saveDepsFilename, s, 'utf8')
   }
+  const finished = +new Date()
+  if (options.time) {
+    console.error('spec-change took %dms', finished - started)
+  }
+
   return deps
 }
 

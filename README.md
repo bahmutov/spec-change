@@ -45,6 +45,13 @@ The saved file will be something like:
 }
 ```
 
+You can check how long finding files and dependencies takes by adding `--time` boolean flag. Note: the info is printed to `STDERR` stream
+
+```
+$ npx spec-change --folder "path to folder" --mask '**/*.ts' --time
+spec-change took 25ms
+```
+
 ### NPM module
 
 All files are found using the `import` and `require` directives.
