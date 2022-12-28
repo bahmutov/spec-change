@@ -82,10 +82,10 @@ Finds the source files in the given folder and returns the dependencies object (
 ```js
 const { getDependsInFolder } = require('spec-change')
 // see the "bin/spec-change.js" for example
-const deps = getDependsInFolder(
-  '/absolute/path/to/folder',
-  (fileMask = '**/*.{js,ts}'),
-)
+const deps = getDependsInFolder({
+  folder: '/absolute/path/to/folder',
+  fileMask: '**/*.{js,ts}',
+})
 ```
 
 #### affectedFiles

@@ -135,15 +135,11 @@ function getDependentFiles(filenames, directory) {
  * Give the folder name and optional file mask, finds dependencies between all files.
  * The returned object can have _other_ files, if they are imported or required
  * from the source files.
- * @param {string} folder Absolute path to the folder
- * @param {string} fileMask Optional file mask to use to find the source files
- * @param {string} saveDepsFilename Optional filename to save JSON of found dependencies
  */
-function getDependsInFolder(
-  folder,
-  fileMask = '**/*.{js,ts}',
-  saveDepsFilename,
-) {
+function getDependsInFolder(options) {
+  const { folder, saveDepsFilename } = options
+  const fileMask = options.fileMask || '**/*.{js,ts}'
+
   la(path.isAbsolute(folder), 'expected an absolute folder path', folder)
   la(typeof fileMask === 'string', 'expected a file mask', fileMask)
 

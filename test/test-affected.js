@@ -6,7 +6,7 @@ const directory = path.join(__dirname, '..', 'fixtures', '6')
 
 test('affected files', (t) => {
   t.plan(1)
-  const deps = getDependsInFolder(directory)
+  const deps = getDependsInFolder({ folder: directory })
   const changedFiles = ['utils/sub/misc.js']
   const affected = affectedFiles(deps, changedFiles)
   // both spec-b and spec-b import the misc source file
