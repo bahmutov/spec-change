@@ -13,6 +13,10 @@ jobs:
         run: npm run demo1
       - name: Demo 2 with file mask
         run: npm run demo-mask
+      - name: Demo 3 saves deps.json file
+        run: npm run demo-save
+      - name: Demo 3 prints timing
+        run: npm run demo-time
 
   release:
     needs: [test]
