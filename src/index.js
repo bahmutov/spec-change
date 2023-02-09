@@ -159,6 +159,8 @@ function getDependsInFolder(options) {
     // use relative folder
     const relativeFolder = path.relative(process.cwd(), folder)
     const fullInfo = {
+      warning:
+        'This is a machine-generated file, do not modify it manually. Use https://github.com/bahmutov/spec-change',
       folder: relativeFolder,
       fileMask,
       deps,
