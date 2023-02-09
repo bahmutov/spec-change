@@ -33,5 +33,10 @@ const fileMask = args['--mask'] || '**/*.{js,ts}'
 const saveDepsFilename = args['--save-deps']
 const time = args['--time']
 const deps = getDependsInFolder({ folder, fileMask, saveDepsFilename, time })
-const depsStringified = JSON.stringify(deps, null, 2)
+const depsWithMessage = {
+  warning:
+    'This is a machine-generated file, do not modify it manually. Use https://github.com/bahmutov/spec-change',
+  ...deps,
+}
+const depsStringified = JSON.stringify(depsWithMessage, null, 2)
 console.log(depsStringified + '\n')
