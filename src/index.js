@@ -1,3 +1,4 @@
+// https://github.com/dependents/node-dependency-tree
 const dependencyTree = require('dependency-tree')
 const path = require('path')
 const { lazyAss: la } = require('lazy-ass')
@@ -30,11 +31,21 @@ function convertKeysToRelative(tree, directory) {
  * Returns a tree of dependencies found starting from the filename.
  * All paths are relative to the given directory.
  */
-function getFileDependencies(filename, directory) {
-  const tree = dependencyTree({
+function getFileDependencies(filename, directory, allowJs) {
+  const treeOptions = {
     filename,
     directory,
-  })
+  }
+  if (allowJs) {
+    treeOptions.tsConfig = {
+      compilerOptions: {
+        // JS files can import TS files
+        // and vice versa
+        allowJs: true,
+      },
+    }
+  }
+  const tree = dependencyTree(treeOptions)
 
   // convert absolute paths into relative
   const relativeTree = convertKeysToRelative(tree, directory)
@@ -46,9 +57,9 @@ function getFileDependencies(filename, directory) {
  * for all dependencies reachable from the given filename via "require" or "import"
  * statements.
  */
-function getFlatFileDependencies(filename, directory) {
+function getFlatFileDependencies(filename, directory, allowJs) {
   const firstFileRelative = path.relative(directory, filename)
-  const tree = getFileDependencies(filename, directory)
+  const tree = getFileDependencies(filename, directory, allowJs)
   const set = new Set()
 
   const addPaths = (tr) => {
@@ -73,14 +84,14 @@ function getFlatFileDependencies(filename, directory) {
  * Computes the list of files each spec in the filenames depends on.
  * All returned paths are relative to the given directory.
  */
-function getFlatFilesDependencies(filenames, directory) {
+function getFlatFilesDependencies(filenames, directory, allowJs) {
   la(Array.isArray(filenames), 'expected a list of filenames', filenames)
   la(typeof directory === 'string', 'expected a directory', directory)
 
   const result = {}
   filenames.forEach((filename) => {
     const name = path.relative(directory, filename)
-    const dependsOn = getFlatFileDependencies(filename, directory)
+    const dependsOn = getFlatFileDependencies(filename, directory, allowJs)
     result[name] = dependsOn
   })
 
@@ -93,12 +104,13 @@ function getFlatFilesDependencies(filenames, directory) {
  * is a relative filename. The value is a list of _other_ files that depend on it
  * @param {string[]} filenames The absolute filenames to the source files
  * @param {string} directory The absolute path to the common directory
+ * @param {boolean} allowJs Allow JS and TS specs to import each other
  * @see https://github.com/bahmutov/spec-change
  */
-function getDependentFiles(filenames, directory) {
+function getDependentFiles(filenames, directory, allowJs) {
   la(Array.isArray(filenames), 'expected a list of filenames', filenames)
   la(typeof directory === 'string', 'expected a directory', directory)
-  const flatDeps = getFlatFilesDependencies(filenames, directory)
+  const flatDeps = getFlatFilesDependencies(filenames, directory, allowJs)
 
   const allImportedFilesSet = new Set()
   Object.values(flatDeps).forEach((deps) => {
@@ -137,14 +149,14 @@ function getDependentFiles(filenames, directory) {
  * from the source files.
  */
 function getDependsInFolder(options) {
-  const { folder, saveDepsFilename } = options
+  const { folder, saveDepsFilename, allowJs } = options
   const fileMask = options.fileMask || '**/*.{js,ts}'
 
   la(path.isAbsolute(folder), 'expected an absolute folder path', folder)
   la(typeof fileMask === 'string', 'expected a file mask', fileMask)
 
   debug('absolute folder: %s', folder)
-  debug('file mask: %s', fileMask)
+  debug('file mask: %s allow JS %o', fileMask, allowJs)
   const started = +new Date()
   const files = globby.sync(fileMask, {
     cwd: folder,
@@ -152,7 +164,7 @@ function getDependsInFolder(options) {
   })
   debug('found %d files %o', files.length, files)
 
-  const deps = getDependentFiles(files, folder)
+  const deps = getDependentFiles(files, folder, allowJs)
 
   if (saveDepsFilename) {
     debug('saving json file with dependencies %s', saveDepsFilename)

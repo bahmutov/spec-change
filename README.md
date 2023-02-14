@@ -52,6 +52,12 @@ $ npx spec-change --folder "path to folder" --mask '**/*.ts' --time
 spec-change took 25ms
 ```
 
+If you have JS and TS files in the same project, you should use the flag `--allowjs` to make sure TS imports from JS files are detected.
+
+```
+$ npx spec-change --folder "path to folder" --allowjs
+```
+
 ### NPM module
 
 All files are found using the `import` and `require` directives.

@@ -11,10 +11,14 @@ const args = arg({
   '--mask': String,
   '--save-deps': String, // output filename
   '--time': Boolean,
+  '--allowjs': Boolean,
   // aliases
   '-f': '--folder',
   '-m': '--mask',
   '-t': '--time',
+  '--allow-js': '--allowjs',
+  '--allowJs': '--allowjs',
+  '--allowJS': '--allowjs',
 })
 
 debug('arguments %o', args)
@@ -32,6 +36,13 @@ const folder = path.resolve(args['--folder'])
 const fileMask = args['--mask'] || '**/*.{js,ts}'
 const saveDepsFilename = args['--save-deps']
 const time = args['--time']
-const deps = getDependsInFolder({ folder, fileMask, saveDepsFilename, time })
+const allowJs = args['--allowjs'] || false
+const deps = getDependsInFolder({
+  folder,
+  fileMask,
+  saveDepsFilename,
+  time,
+  allowJs,
+})
 const depsStringified = JSON.stringify(deps, null, 2)
 console.log(depsStringified + '\n')
