@@ -17,6 +17,8 @@ jobs:
         run: npm run demo-save
       - name: Demo 3 prints timing
         run: npm run demo-time
+      - name: Check dependencies
+        run: npm audit --report --omit dev
 
   release:
     needs: [test]
