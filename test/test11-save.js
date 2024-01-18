@@ -7,7 +7,7 @@ const fs = require('fs')
 const cwd = path.join(__dirname, '..')
 
 test('uses file mask', async (t) => {
-  t.plan(2)
+  t.plan(3)
 
   try {
     fs.unlinkSync('./deps.json')
@@ -27,5 +27,9 @@ test('uses file mask', async (t) => {
   )
   t.snapshot(out, 'spec b only and saved')
   const deps = JSON.parse(fs.readFileSync('./deps.json', 'utf-8'))
+  // should we check the timestamp itself?
+  t.true('generatedAt' in deps, 'has generatedAt')
+  // replace the random timestamp with the constant timestamp
+  deps.generatedAt = '2020-01-01T00:00:00.000Z'
   t.snapshot(deps, 'saved dependencies')
 })
