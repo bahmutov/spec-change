@@ -173,6 +173,7 @@ function getDependsInFolder(options) {
     const fullInfo = {
       warning:
         'This is a machine-generated file, do not modify it manually. Use https://github.com/bahmutov/spec-change',
+      generatedAt: new Date().toISOString(),
       folder: relativeFolder,
       fileMask,
       deps,
