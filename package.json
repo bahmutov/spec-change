@@ -27,7 +27,7 @@
     "filing-cabinet": "^3.3.0",
     "precinct": "^11.0.5",
     "prettier": "^3.0.0",
-    "semantic-release": "^21.0.7"
+    "semantic-release": "^23.0.0"
   },
   "dependencies": {
     "arg": "^5.0.2",
