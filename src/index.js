@@ -149,8 +149,9 @@ function getDependentFiles(filenames, directory, allowJs) {
  * from the source files.
  */
 function getDependsInFolder(options) {
+  debug('options %o', options)
   const { folder, saveDepsFilename, allowJs } = options
-  const fileMask = options.fileMask || '**/*.{js,ts}'
+  const fileMask = options.fileMask || '**/*.{js,jsx,ts,tsx}'
 
   la(path.isAbsolute(folder), 'expected an absolute folder path', folder)
   la(typeof fileMask === 'string', 'expected a file mask', fileMask)
