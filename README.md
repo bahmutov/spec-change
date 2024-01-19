@@ -97,7 +97,8 @@ const { getDependsInFolder } = require('spec-change')
 // see the "bin/spec-change.js" for example
 const deps = getDependsInFolder({
   folder: '/absolute/path/to/folder',
-  fileMask: '**/*.{js,ts}',
+  fileMask: '**/*.{js,ts,jsx,tsx}',
+  allowJs: true,
 })
 ```
 

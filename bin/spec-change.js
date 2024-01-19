@@ -33,7 +33,7 @@ if (!fs.existsSync(args['--folder'])) {
 }
 
 const folder = path.resolve(args['--folder'])
-const fileMask = args['--mask'] || '**/*.{js,ts}'
+const fileMask = args['--mask'] || '**/*.{js,ts,jsx,tsx}'
 const saveDepsFilename = args['--save-deps']
 const time = args['--time']
 const allowJs = args['--allowjs'] || false
