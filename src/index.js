@@ -5,6 +5,7 @@ const { lazyAss: la } = require('lazy-ass')
 const debug = require('debug')('spec-change')
 const globby = require('globby')
 const fs = require('fs')
+const deepEqual = require('deep-equal')
 
 function isOutside(relativePath) {
   return relativePath.startsWith('..')
@@ -150,7 +151,8 @@ function getDependentFiles(filenames, directory, allowJs) {
  */
 function getDependsInFolder(options) {
   debug('options %o', options)
-  const { folder, saveDepsFilename, allowJs } = options
+  const { folder, allowJs } = options
+  let { saveDepsFilename } = options
   const fileMask = options.fileMask || '**/*.{js,jsx,ts,tsx}'
 
   la(path.isAbsolute(folder), 'expected an absolute folder path', folder)
@@ -168,19 +170,37 @@ function getDependsInFolder(options) {
   const deps = getDependentFiles(files, folder, allowJs)
 
   if (saveDepsFilename) {
-    debug('saving json file with dependencies %s', saveDepsFilename)
     // use relative folder
     const relativeFolder = path.relative(process.cwd(), folder)
-    const fullInfo = {
-      warning:
-        'This is a machine-generated file, do not modify it manually. Use https://github.com/bahmutov/spec-change',
-      generatedAt: new Date().toISOString(),
-      folder: relativeFolder,
-      fileMask,
-      deps,
+
+    if (fs.existsSync(saveDepsFilename)) {
+      const oldDeps = JSON.parse(fs.readFileSync(saveDepsFilename, 'utf8'))
+      const sameFolder = oldDeps.folder === relativeFolder
+      const sameMask = oldDeps.fileMask === fileMask
+      const sameDependencies = deepEqual(oldDeps.deps, deps)
+      debug({ sameFolder, sameMask, sameDependencies })
+      if (sameFolder && sameMask && sameDependencies) {
+        saveDepsFilename = false
+      }
     }
-    const s = JSON.stringify(fullInfo, null, 2) + '\n\n'
-    fs.writeFileSync(saveDepsFilename, s, 'utf8')
+
+    if (saveDepsFilename) {
+      debug('saving json file with dependencies %s', saveDepsFilename)
+
+      const fullInfo = {
+        warning:
+          'This is a machine-generated file, do not modify it manually. Use https://github.com/bahmutov/spec-change',
+        generatedAt: new Date().toISOString(),
+        folder: relativeFolder,
+        fileMask,
+        deps,
+      }
+      const s = JSON.stringify(fullInfo, null, 2) + '\n\n'
+      fs.writeFileSync(saveDepsFilename, s, 'utf8')
+      console.log('saved dependencies file %s', saveDepsFilename)
+    } else {
+      console.log('skipping saving dependencies file')
+    }
   }
   const finished = +new Date()
   if (options.time) {
