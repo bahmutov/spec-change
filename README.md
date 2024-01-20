@@ -36,6 +36,7 @@ The saved file will be something like:
 
 ```json
 {
+  "generatedAt": "2024-01-20T03:38:50.803Z",
   "folder": "relative path to folder",
   "fileMask": "**/*.ts",
   "deps": {
@@ -44,6 +45,8 @@ The saved file will be something like:
   }
 }
 ```
+
+**Note:** the file will NOT be written if the folder, file mask, and the dependencies tree is the same.
 
 You can check how long finding files and dependencies takes by adding `--time` boolean flag. Note: the info is printed to `STDERR` stream
 
