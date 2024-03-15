@@ -34,7 +34,7 @@
     "debug": "^4.3.4",
     "deep-equal": "^2.2.3",
     "dependency-tree": "^10.0.9",
-    "globby": "^11.1.0",
+    "globby": "^14.0.0",
     "lazy-ass": "^2.0.3"
   },
   "repository": {
