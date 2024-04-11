@@ -24,7 +24,7 @@
   "devDependencies": {
     "ava": "^6.0.0",
     "execa-wrap": "^1.4.0",
-    "filing-cabinet": "^4.0.0",
+    "filing-cabinet": "^5.0.0",
     "precinct": "^11.0.5",
     "prettier": "^3.0.0",
     "semantic-release": "^23.0.0"
