@@ -69,6 +69,8 @@ You can pass path to `tsconfig.json` to use to discover dependencies, even when 
 $ npx spec-change --folder "path to folder" --ts-config tsconfig.json
 ```
 
+If there is `tsconfig.json` file in the current folder, it will be used automatically.
+
 ### NPM module
 
 All files are found using the `import` and `require` directives.
