@@ -1,0 +1,14 @@
+{
+  "name": "test-ts-aliases",
+  "version": "1.0.0",
+  "description": "Test tracing dependencies with TS import aliases",
+  "private": true,
+  "main": "index.js",
+  "scripts": {
+    "deps": "../bin/spec-change.js --folder cypress --ts-config tsconfig.json"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {}
+}

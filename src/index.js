@@ -32,10 +32,11 @@ function convertKeysToRelative(tree, directory) {
  * Returns a tree of dependencies found starting from the filename.
  * All paths are relative to the given directory.
  */
-function getFileDependencies(filename, directory, allowJs) {
+function getFileDependencies(filename, directory, allowJs, tsConfigFilename) {
   const treeOptions = {
     filename,
     directory,
+    tsConfig: tsConfigFilename,
   }
   if (allowJs) {
     treeOptions.tsConfig = {
@@ -47,6 +48,8 @@ function getFileDependencies(filename, directory, allowJs) {
     }
   }
   const tree = dependencyTree(treeOptions)
+  // debug({ filename, directory })
+  // debug(tree)
 
   // convert absolute paths into relative
   const relativeTree = convertKeysToRelative(tree, directory)
@@ -58,9 +61,19 @@ function getFileDependencies(filename, directory, allowJs) {
  * for all dependencies reachable from the given filename via "require" or "import"
  * statements.
  */
-function getFlatFileDependencies(filename, directory, allowJs) {
+function getFlatFileDependencies(
+  filename,
+  directory,
+  allowJs,
+  tsConfigFilename,
+) {
   const firstFileRelative = path.relative(directory, filename)
-  const tree = getFileDependencies(filename, directory, allowJs)
+  const tree = getFileDependencies(
+    filename,
+    directory,
+    allowJs,
+    tsConfigFilename,
+  )
   const set = new Set()
 
   const addPaths = (tr) => {
@@ -85,14 +98,24 @@ function getFlatFileDependencies(filename, directory, allowJs) {
  * Computes the list of files each spec in the filenames depends on.
  * All returned paths are relative to the given directory.
  */
-function getFlatFilesDependencies(filenames, directory, allowJs) {
+function getFlatFilesDependencies(
+  filenames,
+  directory,
+  allowJs,
+  tsConfigFilename,
+) {
   la(Array.isArray(filenames), 'expected a list of filenames', filenames)
   la(typeof directory === 'string', 'expected a directory', directory)
 
   const result = {}
   filenames.forEach((filename) => {
     const name = path.relative(directory, filename)
-    const dependsOn = getFlatFileDependencies(filename, directory, allowJs)
+    const dependsOn = getFlatFileDependencies(
+      filename,
+      directory,
+      allowJs,
+      tsConfigFilename,
+    )
     result[name] = dependsOn
   })
 
@@ -106,12 +129,18 @@ function getFlatFilesDependencies(filenames, directory, allowJs) {
  * @param {string[]} filenames The absolute filenames to the source files
  * @param {string} directory The absolute path to the common directory
  * @param {boolean} allowJs Allow JS and TS specs to import each other
+ * @param {string} tsConfigFilename Optional TS config filename
  * @see https://github.com/bahmutov/spec-change
  */
-function getDependentFiles(filenames, directory, allowJs) {
+function getDependentFiles(filenames, directory, allowJs, tsConfigFilename) {
   la(Array.isArray(filenames), 'expected a list of filenames', filenames)
   la(typeof directory === 'string', 'expected a directory', directory)
-  const flatDeps = getFlatFilesDependencies(filenames, directory, allowJs)
+  const flatDeps = getFlatFilesDependencies(
+    filenames,
+    directory,
+    allowJs,
+    tsConfigFilename,
+  )
 
   const allImportedFilesSet = new Set()
   Object.values(flatDeps).forEach((deps) => {
@@ -151,7 +180,7 @@ function getDependentFiles(filenames, directory, allowJs) {
  */
 function getDependsInFolder(options) {
   debug('options %o', options)
-  const { folder, allowJs } = options
+  const { folder, allowJs, tsConfigFilename } = options
   let { saveDepsFilename } = options
   const fileMask = options.fileMask || '**/*.{js,jsx,ts,tsx}'
 
@@ -160,6 +189,10 @@ function getDependsInFolder(options) {
 
   debug('absolute folder: %s', folder)
   debug('file mask: %s allow JS %o', fileMask, allowJs)
+  if (tsConfigFilename) {
+    debug('ts-config filename %s', tsConfigFilename)
+  }
+
   const started = +new Date()
   const files = globby.sync(fileMask, {
     cwd: folder,
@@ -167,7 +200,7 @@ function getDependsInFolder(options) {
   })
   debug('found %d files %o', files.length, files)
 
-  const deps = getDependentFiles(files, folder, allowJs)
+  const deps = getDependentFiles(files, folder, allowJs, tsConfigFilename)
 
   if (saveDepsFilename) {
     // use relative folder

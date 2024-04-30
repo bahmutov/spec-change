@@ -12,6 +12,7 @@ const args = arg({
   '--save-deps': String, // output filename
   '--time': Boolean,
   '--allowjs': Boolean,
+  '--ts-config': String, // ts config filename
   // aliases
   '-f': '--folder',
   '-m': '--mask',
@@ -37,12 +38,20 @@ const fileMask = args['--mask'] || '**/*.{js,ts,jsx,tsx}'
 const saveDepsFilename = args['--save-deps']
 const time = args['--time']
 const allowJs = args['--allowjs'] || false
+
+let tsConfigFilename = args['--ts-config']
+if (!tsConfigFilename && fs.existsSync('tsconfig.json')) {
+  tsConfigFilename = 'tsconfig.json'
+  debug('found tsconfig file %s', tsConfigFilename)
+}
+
 const deps = getDependsInFolder({
   folder,
   fileMask,
   saveDepsFilename,
   time,
   allowJs,
+  tsConfigFilename,
 })
 const depsStringified = JSON.stringify(deps, null, 2)
 console.log(depsStringified + '\n')

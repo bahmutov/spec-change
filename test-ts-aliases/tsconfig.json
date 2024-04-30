@@ -1,0 +1,10 @@
+{
+  "include": ["cypress/e2e/*.cy.ts", "cypress/e2e/*.cy.js"],
+  "compilerOptions": {
+    "allowJs": true,
+    "baseUrl": "cypress",
+    "paths": {
+      "@support/*": ["support/*"]
+    }
+  }
+}
