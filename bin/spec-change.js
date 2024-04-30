@@ -12,6 +12,7 @@ const args = arg({
   '--save-deps': String, // output filename
   '--time': Boolean,
   '--allowjs': Boolean,
+  '--ts-config': String, // ts config filename
   // aliases
   '-f': '--folder',
   '-m': '--mask',
@@ -43,6 +44,7 @@ const deps = getDependsInFolder({
   saveDepsFilename,
   time,
   allowJs,
+  tsConfigFilename: args['--ts-config'],
 })
 const depsStringified = JSON.stringify(deps, null, 2)
 console.log(depsStringified + '\n')

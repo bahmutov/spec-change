@@ -61,6 +61,14 @@ If you have JS and TS files in the same project, you should use the flag `--allo
 $ npx spec-change --folder "path to folder" --allowjs
 ```
 
+#### TS config path
+
+You can pass path to `tsconfig.json` to use to discover dependencies, even when using import path aliases.
+
+```
+$ npx spec-change --folder "path to folder" --ts-config tsconfig.json
+```
+
 ### NPM module
 
 All files are found using the `import` and `require` directives.

@@ -19,6 +19,9 @@ jobs:
         run: npm run demo-time
       # - name: Check dependencies
       #   run: npm audit --report --omit dev
+      - name: TS import
+        run: npm run deps
+        working-directory: test-ts-aliases
 
   release:
     needs: [test]
