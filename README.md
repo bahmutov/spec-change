@@ -69,7 +69,7 @@ You can pass path to `tsconfig.json` to use to discover dependencies, even when 
 $ npx spec-change --folder "path to folder" --ts-config tsconfig.json
 ```
 
-If there is `tsconfig.json` file in the current folder, it will be used automatically.
+If there is `tsconfig.json` file in the current folder, it will be used automatically. You can only specify the `--ts-config` option or `allowJs`.
 
 ### NPM module
 

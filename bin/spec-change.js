@@ -20,6 +20,7 @@ const args = arg({
   '--allow-js': '--allowjs',
   '--allowJs': '--allowjs',
   '--allowJS': '--allowjs',
+  '--tsconfig': '--ts-config',
 })
 
 debug('arguments %o', args)
@@ -40,6 +41,13 @@ const time = args['--time']
 const allowJs = args['--allowjs'] || false
 
 let tsConfigFilename = args['--ts-config']
+if (tsConfigFilename) {
+  if (allowJs) {
+    console.error('Cannot use both --allowjs and --ts-config')
+    process.exit(1)
+  }
+}
+
 if (!tsConfigFilename && fs.existsSync('tsconfig.json')) {
   tsConfigFilename = 'tsconfig.json'
   debug('found tsconfig file %s', tsConfigFilename)

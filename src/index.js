@@ -38,7 +38,8 @@ function getFileDependencies(filename, directory, allowJs, tsConfigFilename) {
     directory,
     tsConfig: tsConfigFilename,
   }
-  if (allowJs) {
+
+  if (!tsConfigFilename && allowJs) {
     treeOptions.tsConfig = {
       compilerOptions: {
         // JS files can import TS files
