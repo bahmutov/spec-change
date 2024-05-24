@@ -219,7 +219,7 @@ function getDependsInFolder(options) {
     }
 
     if (saveDepsFilename) {
-      debug('saving json file with dependencies %s', saveDepsFilename)
+      debug('saving updated json file with dependencies %s', saveDepsFilename)
 
       const fullInfo = {
         warning:
@@ -231,7 +231,7 @@ function getDependsInFolder(options) {
       }
       const s = JSON.stringify(fullInfo, null, 2) + '\n\n'
       fs.writeFileSync(saveDepsFilename, s, 'utf8')
-      console.log('saved dependencies file %s', saveDepsFilename)
+      console.log('saved updated dependencies file %s', saveDepsFilename)
     } else {
       console.log('skipping saving dependencies file')
     }
