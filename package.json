@@ -35,8 +35,8 @@
     "debug": "^4.3.4",
     "deep-equal": "^2.2.3",
     "dependency-tree": "^11.0.0",
-    "globby": "^11.1.0",
-    "lazy-ass": "^2.0.3"
+    "lazy-ass": "^2.0.3",
+    "tinyglobby": "^0.1.2"
   },
   "repository": {
     "type": "git",

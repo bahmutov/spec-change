@@ -3,7 +3,7 @@ const dependencyTree = require('dependency-tree')
 const path = require('path')
 const { lazyAss: la } = require('lazy-ass')
 const debug = require('debug')('spec-change')
-const globby = require('globby')
+const tinyglobby = require('tinyglobby')
 const fs = require('fs')
 const deepEqual = require('deep-equal')
 
@@ -195,7 +195,8 @@ function getDependsInFolder(options) {
   }
 
   const started = +new Date()
-  const files = globby.sync(fileMask, {
+  const files = tinyglobby.globSync({
+    patterns: [fileMask],
     cwd: folder,
     absolute: true,
   })
