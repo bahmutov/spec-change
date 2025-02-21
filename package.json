@@ -9,7 +9,8 @@
     "demo1": "DEBUG=spec-change node ./bin/spec-change --folder fixtures/6",
     "demo-mask": "DEBUG=spec-change node ./bin/spec-change --folder fixtures/6 --mask 'spec-b.js'",
     "demo-save": "DEBUG=spec-change node ./bin/spec-change --folder fixtures/6 --save-deps deps.json",
-    "demo-time": "node ./bin/spec-change --folder fixtures/6 --time"
+    "demo-time": "node ./bin/spec-change --folder fixtures/6 --time",
+    "prod-deps": "npm audit --report --omit dev"
   },
   "bin": {
     "spec-change": "bin/spec-change.js"

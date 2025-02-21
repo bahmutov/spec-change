@@ -7,6 +7,8 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: bahmutov/npm-install@v1
+      - name: Check dependencies
+        run: npm run prod-deps
       - name: Unit tests
         run: npm t
       - name: Demo 1
