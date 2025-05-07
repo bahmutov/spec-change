@@ -26,7 +26,7 @@
     "ava": "^6.0.0",
     "execa-wrap": "^1.4.0",
     "filing-cabinet": "^5.0.0",
-    "precinct": "^11.0.5",
+    "precinct": "^12.0.0",
     "prettier": "^3.0.0",
     "semantic-release": "^24.0.0",
     "typescript": "^5.4.5"
