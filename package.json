@@ -10,7 +10,7 @@
     "demo-mask": "DEBUG=spec-change node ./bin/spec-change --folder fixtures/6 --mask 'spec-b.js'",
     "demo-save": "DEBUG=spec-change node ./bin/spec-change --folder fixtures/6 --save-deps deps.json",
     "demo-time": "node ./bin/spec-change --folder fixtures/6 --time",
-    "prod-deps": "npm audit --report --omit dev"
+    "prod-deps": "npm audit --omit dev"
   },
   "bin": {
     "spec-change": "bin/spec-change.js"
@@ -23,19 +23,19 @@
   "author": "Gleb Bahmutov <gleb.bahmutov@gmail.com>",
   "license": "MIT",
   "devDependencies": {
-    "ava": "^6.0.0",
+    "ava": "^7.0.0",
     "execa-wrap": "^1.4.0",
     "filing-cabinet": "^5.0.0",
-    "precinct": "^12.0.0",
+    "precinct": "^12.2.0",
     "prettier": "^3.0.0",
-    "semantic-release": "^24.0.0",
+    "semantic-release": "^25.0.3",
     "typescript": "^5.4.5"
   },
   "dependencies": {
     "arg": "^5.0.2",
     "debug": "^4.3.4",
     "deep-equal": "^2.2.3",
-    "dependency-tree": "^11.1.1",
+    "dependency-tree": "^11.4.0",
     "lazy-ass": "^2.0.3",
     "tinyglobby": "^0.2.0"
   },

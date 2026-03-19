@@ -5,7 +5,13 @@ jobs:
     runs-on: ubuntu-24.04
     name: Build and test
     steps:
-      - uses: actions/checkout@v4
+      # https://github.com/actions/checkout
+      - uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
+
       - uses: bahmutov/npm-install@v1
       - name: Check dependencies
         run: npm run prod-deps
@@ -31,7 +37,11 @@ jobs:
     if: github.ref == 'refs/heads/main'
     steps:
       - name: Checkout 🛎
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
+
+      - uses: actions/setup-node@v6
+        with:
+          node-version-file: '.nvmrc'
 
       - name: Install only the semantic release 📦
         run: npm install semantic-release
