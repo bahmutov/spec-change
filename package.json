@@ -29,7 +29,7 @@
     "precinct": "^12.2.0",
     "prettier": "^3.0.0",
     "semantic-release": "^25.0.3",
-    "typescript": "^5.4.5"
+    "typescript": "^6.0.0"
   },
   "dependencies": {
     "arg": "^5.0.2",
