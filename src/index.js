@@ -5,7 +5,7 @@ const { lazyAss: la } = require('lazy-ass')
 const debug = require('debug')('spec-change')
 const tinyglobby = require('tinyglobby')
 const fs = require('fs')
-const deepEqual = require('deep-equal')
+const { isDeepStrictEqual } = require('util')
 
 function isOutside(relativePath) {
   return relativePath.startsWith('..')
@@ -211,7 +211,7 @@ function getDependsInFolder(options) {
       const oldDeps = JSON.parse(fs.readFileSync(saveDepsFilename, 'utf8'))
       const sameFolder = oldDeps.folder === relativeFolder
       const sameMask = oldDeps.fileMask === fileMask
-      const sameDependencies = deepEqual(oldDeps.deps, deps)
+      const sameDependencies = isDeepStrictEqual(oldDeps.deps, deps)
       debug({ sameFolder, sameMask, sameDependencies })
       if (sameFolder && sameMask && sameDependencies) {
         saveDepsFilename = false
