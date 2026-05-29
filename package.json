@@ -25,19 +25,19 @@
   "devDependencies": {
     "ava": "^7.0.0",
     "execa-wrap": "^1.4.0",
-    "filing-cabinet": "^5.0.0",
-    "precinct": "^12.2.0",
-    "prettier": "^3.0.0",
+    "filing-cabinet": "^5.5.1",
+    "precinct": "^12.3.2",
+    "prettier": "^3.8.3",
     "semantic-release": "^25.0.3",
-    "typescript": "^5.4.5"
+    "typescript": "^5.9.3"
   },
   "dependencies": {
     "arg": "^5.0.2",
-    "debug": "^4.3.4",
+    "debug": "^4.4.3",
     "deep-equal": "^2.2.3",
-    "dependency-tree": "^11.4.0",
+    "dependency-tree": "^11.5.0",
     "lazy-ass": "^2.0.3",
-    "tinyglobby": "^0.2.0"
+    "tinyglobby": "^0.2.17"
   },
   "repository": {
     "type": "git",
