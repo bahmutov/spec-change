@@ -1,5 +1,5 @@
 {
-  "extends": ["config:base"],
+  "extends": ["config:base", "helpers:pinGitHubActionDigests"],
   "automerge": true,
   "major": {
     "automerge": false
@@ -7,6 +7,7 @@
   "minor": {
     "automerge": true
   },
+  "minimumReleaseAge": "7 days",
   "prConcurrentLimit": 3,
   "prHourlyLimit": 2,
   "schedule": ["after 10pm and before 5am on every weekday", "every weekend"],
