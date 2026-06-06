@@ -41,6 +41,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/bahmutov/spec-change.git"
-  }
+    "url": "git+https://github.com/bahmutov/spec-change.git"
+  },
+  "bugs": {
+    "url": "https://github.com/bahmutov/spec-change/issues"
+  },
+  "homepage": "https://github.com/bahmutov/spec-change#readme"
 }
